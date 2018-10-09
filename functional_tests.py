@@ -11,6 +11,11 @@ class newVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_start_a_list_and_retrieve_it_later(self):
         #User Bob visits our to-do list website
         self.browser.get('http://localhost:8080')
@@ -36,10 +41,7 @@ class newVisitorTest(unittest.TestCase):
         #   "#1: Plan next Tuesday's session" as the only item
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
-
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Plan next Tuesday\'s session', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Plan next Tuesday\'s session')
         
         #There is a text box enticing Bob to enter another item, solidifying a potential list addiction
         #   Bob enters "Find way to foreshadow upcoming monsters" to remind him what he still needs for next session
@@ -49,11 +51,8 @@ class newVisitorTest(unittest.TestCase):
         time.sleep(1)
 
         #The page updates and shows both items now
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Plan next Tuesday\'s session', [row.text for row in rows])
-        self.assertIn('2: Find way to foreshadow upcoming monsters', [row.text for row in rows])
-        
+        self.check_for_row_in_list_table('1: Plan next Tuesday\'s session')
+        self.check_for_row_in_list_table('2: Find way to foreshadow upcoming monsters')
 
         #Bob realizes that this is a random site and becomes worried that it won't save his list,
         #   then notices the sit generated a unique url for him, and thinks that's a bit weird,
