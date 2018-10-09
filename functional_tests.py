@@ -39,20 +39,26 @@ class newVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '#1: Plan next Tuesday\'s session' for row in rows),
-            "New to-do item did not appear in table"
-        )
-
+        self.assertIn('1: Plan next Tuesday\'s session', [row.text for row in rows])
+        
         #There is a text box enticing Bob to enter another item, solidifying a potential list addiction
         #   Bob enters "Find way to foreshadow upcoming monsters" to remind him what he still needs for next session
-        self.fail('Finish the test!')
+        inputbox = self.browser.find_element_by_id('id_new_list_item')
+        inputbox.send_keys('Find way to foreshadow upcoming monsters')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         #The page updates and shows both items now
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Plan next Tuesday\'s session', [row.text for row in rows])
+        self.assertIn('2: Find way to foreshadow upcoming monsters', [row.text for row in rows])
+        
 
         #Bob realizes that this is a random site and becomes worried that it won't save his list,
         #   then notices the sit generated a unique url for him, and thinks that's a bit weird,
         #   but good enough for this hypothetical straw user. He also notices some text explaining it
+        self.fail('Finish the test!')
 
         #He visits the url, and sees his list fully there
 
