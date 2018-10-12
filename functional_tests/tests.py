@@ -92,7 +92,7 @@ class newVisitorTest(LiveServerTestCase):
         
         #Carol begins making a new list by entering a new item
         #   Carol is less of a huge nerd
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.browser.find_element_by_id('id_new_list_item')
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy milk')
