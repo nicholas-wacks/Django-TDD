@@ -15,7 +15,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('To-Do', header_text)
 
         #Bob is invited to make a to-do item right away. First one's free
-        inputbox = self.browser.find_element_by_id('id_new_list_item')
+        inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Enter a to-do item'
@@ -32,7 +32,7 @@ class NewVisitorTest(FunctionalTest):
         
         #There is a text box enticing Bob to enter another item, solidifying a potential list addiction
         #   Bob enters "Find way to foreshadow upcoming monsters" to remind him what he still needs for next session
-        inputbox = self.browser.find_element_by_id('id_new_list_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Find way to foreshadow upcoming monsters')
         inputbox.send_keys(Keys.ENTER)
 
@@ -45,7 +45,7 @@ class NewVisitorTest(FunctionalTest):
     def test_multiple_users_can_have_unique_lists(self):
         #Bob makes a new list
         self.browser.get(self.live_server_url)
-        inputbox = self.browser.find_element_by_id('id_new_list_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Plan next Tuesday\'s session')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Plan next Tuesday\'s session')
@@ -69,7 +69,7 @@ class NewVisitorTest(FunctionalTest):
         
         #Carol begins making a new list by entering a new item
         #   Carol is less of a huge nerd
-        inputbox = self.browser.find_element_by_id('id_new_list_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy milk')
